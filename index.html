@@ -41,6 +41,11 @@
 		height: 600px;
 		font-family: helvetica, sans-serif;
 	}
+	
+	#globe {
+		width: 320px;
+		height: 320px;
+	}
 
 	path, line {
 		stroke: #777;
@@ -208,23 +213,23 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4" style="text-align:center;">
-				<i class="fa fa-bell-o fa-6" style="font-size: 196px;" aria-hidden="true"></i>
+				<!-- <i class="fa fa-bell-o fa-6" style="font-size: 196px;" aria-hidden="true"></i> -->
+				<svg id="globe"></svg>
 				</div>
-                <div class="col-md-8">
+                <div class="col-md-8" style="margin-top: 100px">
 				<div class="input-group margin-bottom-sm">
 						<div id="mc_embed_signup">
 						<form action="//pandoledger.us16.list-manage.com/subscribe/post?u=0f48c9bf2e6caa3ee9c259b22&amp;id=9339596eec" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
 							<div id="mc_embed_signup_scroll">
-							<h2>Stay up to date</h2>
+							<h2>Get updates</h2>
 						<div class="mc-field-group">
-							
-							<div class="input-group margin-bottom-sm">
-							  <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
-							  <input class="form-control" type="email" placeholder="Email address" value="" name="EMAIL" id="mce-EMAIL">
-							  <span class="input-group-btn">
-								<input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="btn btn-secondary">
+							 
+							  <input type="email" placeholder="enter email" value="" name="EMAIL" id="mce-EMAIL" class="btn btn-border-o">
+							  
+								<!-- <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="btn btn-green btn-border-o"> -->
+					<button type="submit" value="Subscribe" id="mc-embedded-subscribe" class="btn btn-green btn-border-o">Subscribe</button>
 								<!-- <button class="btn btn-secondary" type="button">Love it</button> -->
-							  </span>
+							 
 							</div>
 							
 						</div>
@@ -419,6 +424,7 @@ function regenerate(initialise) {
 	branches = [];
 	branch(seed);
 	initialise ? create() : update();
+	setTimeout(regenerate, 5000);
 }
 
 function endPt(b) {
@@ -474,8 +480,93 @@ d3.selectAll('.regenerate')
 	.on('click', regenerate);
 
 regenerate(true);
-setInterval(regenerate, 5000);
 
+
+
+
+
+//globe
+
+// Map configuration
+var width  = 320;
+var height = 320;
+var rScale = d3.scale.sqrt();
+var peoplePerPixel = 50000;
+var max_population = [];
+
+// Configuration for the spinning effect
+var time = Date.now();
+var rotate = [0, 0];
+var velocity = [.015, -0];
+
+// set projection type and paremetes
+var projection = d3.geo.orthographic()
+   .scale(100)
+   .translate([(width / 2), height / 2])
+   .clipAngle(90)
+   .precision(0.3);
+
+// create path variable, empty svg element and group container
+var path = d3.geo.path()
+   .projection(projection);
+var svg = d3.select("#globe");
+var g = svg.append("g");
+
+// drawing dark grey spehere as landmass
+g.append("path")
+   .datum({type: "Sphere"})
+   .attr("class", "sphere")
+   .attr("d", path)
+   .attr("fill", "#0D0D0D");
+
+// loading city locations from geoJSON
+d3.json("geonames_cities_100k.geojson", function(error, data) {
+
+         // Handle errors getting and parsing the data
+         if (error) { return error; }
+
+         // setting the circle size (not radius!) according to the number of inhabitants per city
+         population_array = [];
+         for (i = 0; i < data.features.length; i++) {
+            population_array.push(data.features[i].properties.population);
+         }
+         max_population = population_array.sort(d3.descending)[0]
+         var rMin = 0;
+         var rMax = Math.sqrt(max_population / (peoplePerPixel * Math.PI));
+         rScale.domain([0, max_population]);
+         rScale.range([rMin, rMax]);
+
+         path.pointRadius(function(d) {
+            return d.properties ? rScale(d.properties.population) : 1;
+
+         });
+
+         // Drawing transparent circle markers for cities
+         g.selectAll("path.cities").data(data.features)
+            .enter().append("path")
+            .attr("class", "cities")
+            .attr("d", path)
+            .attr("fill", "#2255df")
+            .attr("fill-opacity", 0.5);
+
+         // start spinning!
+         spinning_globe();
+});
+
+function spinning_globe(){
+   d3.timer(function() {
+
+      // get current time
+      var dt = Date.now() - time;
+
+      // get the new position from modified projection function
+      projection.rotate([rotate[0] + velocity[0] * dt, rotate[1] + velocity[1] * dt]);
+
+      // update cities position = redraw
+      svg.selectAll("path.cities").attr("d", path);
+   });
+
+}
 
 	</script>
 	
