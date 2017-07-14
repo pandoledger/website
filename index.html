@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Pando</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="vendor/simple-line-icons/css/simple-line-icons.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="device-mockups/device-mockups.min.css">
+
+    <link href="css/site.css" rel="stylesheet">
+
+    <!-- Temporary navbar container fix -->
+    <style>
+    .navbar-toggler {
+        z-index: 1;
+    }
+    
+    @media (max-width: 576px) {
+        nav > .container {
+            width: 100%;
+        }
+    }
+	
+	svg {
+		width: 840px;
+		height: 600px;
+		font-family: helvetica, sans-serif;
+	}
+
+	path, line {
+		stroke: #777;
+	}
+
+	#chart {
+		text-align: center;
+	}
+	
+	.center {
+		text-align: center;
+	}
+	
+	.animate, .btn, .btn-border-o:before, .btn-border-o:after, .btn-border:before, .btn-border:after, .btn-border-rev-o:before, .btn-border-rev-o:after, .btn-border-rev:before, .btn-border-rev:after, .btn-fill-vert-o:before, .btn-fill-vert-o:after, .btn-fill-vert:before, .btn-fill-vert:after, .btn-fill-horz-o:before, .btn-fill-horz-o:after, .btn-fill-horz:before, .btn-fill-horz:after {
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+
+.btn {
+  display: inline-block;
+  line-height: 35px;
+  margin: 8px;
+  padding: 0 15px;
+  font-size: 15px;
+  position: relative;
+  opacity: .999;
+  border-radius: 3px;
+}
+
+.btn-border-o {
+  background-color: transparent;
+  border: 1px solid #d0d0d0;
+  color: #B8B8B8;
+}
+.btn-border-o:before, .btn-border-o:after {
+  content: '';
+  border-style: solid;
+  position: absolute;
+  z-index: 5;
+  border-radius: 3px;
+  box-sizing: content-box;
+}
+.btn-border-o:before {
+  width: 0;
+  height: 100%;
+  border-width: 1px 0 1px 0;
+  top: -1px;
+  left: 0;
+  -webkit-transition-delay: 0.05s;
+          transition-delay: 0.05s;
+}
+.btn-border-o:after {
+  width: 100%;
+  height: 0;
+  border-width: 0 1px 0 1px;
+  top: 0;
+  left: -1px;
+}
+.btn-border-o:hover:before {
+  width: 100%;
+}
+.btn-border-o:hover:after {
+  height: 100%;
+}
+.btn-border-o.btn-green:before, .btn-border-o.btn-green:after {
+  border-color: #2ecc71;
+}
+.btn-border-o.btn-green:hover {
+  color: #2ecc71;
+}
+.btn-border-o.btn-blue:before, .btn-border-o.btn-blue:after {
+  border-color: #3498db;
+}
+.btn-border-o.btn-blue:hover {
+  color: #3498db;
+}
+.btn-border-o.btn-purple:before, .btn-border-o.btn-purple:after {
+  border-color: #9b59b6;
+}
+.btn-border-o.btn-purple:hover {
+  color: #9b59b6;
+}
+.btn-border-o.btn-navy:before, .btn-border-o.btn-navy:after {
+  border-color: #34495e;
+}
+.btn-border-o.btn-navy:hover {
+  color: #34495e;
+}
+.btn-border-o.btn-orange:before, .btn-border-o.btn-orange:after {
+  border-color: #e67e22;
+}
+.btn-border-o.btn-orange:hover {
+  color: #e67e22;
+}
+.btn-border-o.btn-red:before, .btn-border-o.btn-red:after {
+  border-color: #e74c3c;
+}
+.btn-border-o.btn-red:hover {
+  color: #e74c3c;
+}
+
+    </style>
+
+</head>
+
+<body id="page-top">
+
+    <!-- Navigation -->
+    <nav class="navbar fixed-top navbar-toggleable-md navbar-light" id="mainNav">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarExample" aria-controls="navbarExample" aria-expanded="false" aria-label="Toggle navigation">
+            Menu <i class="fa fa-bars"></i>
+        </button>
+        <div class="container">
+            <a class="navbar-brand" href="#page-top">Pando</a>
+            <div class="collapse navbar-collapse" id="navbarExample">
+			<!--
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#download">Seed ICO</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Whitepaper</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Roadmap</a>
+                    </li>
+                </ul>
+				-->
+            </div>
+        </div>
+    </nav>
+
+    <header class="masthead">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="header-content">
+                        <div class="header-content-inner">
+							<div id="chart">
+								<svg></svg>
+								<h1>Pando</h1>
+								<h2>a scalable tree-based blockchain</h1>
+							</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<!--
+			<div class="row">
+				<div class="col-sm-12 center">
+					<button class="btn btn-green btn-border-o">Emerald</button>
+					<button class="btn btn-blue btn-border-o">Peter River</button>
+					<button class="btn btn-purple btn-border-o">Amethyst</button>
+					<button class="btn btn-navy btn-border-o">Wet Asphalt</button>
+					<button class="btn btn-orange btn-border-o">Carrot</button>
+					<button class="btn btn-red btn-border-o">Alizarin</button>
+				</div>
+			</div>
+			-->
+        </div>
+    </header>
+
+    <section class="download" id="download">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4" style="text-align:center;">
+				<i class="fa fa-bell-o fa-6" style="font-size: 196px;" aria-hidden="true"></i>
+				</div>
+                <div class="col-md-8">
+				<div class="input-group margin-bottom-sm">
+						<div id="mc_embed_signup">
+						<form action="//pandoledger.us16.list-manage.com/subscribe/post?u=0f48c9bf2e6caa3ee9c259b22&amp;id=9339596eec" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+							<div id="mc_embed_signup_scroll">
+							<h2>Stay up to date</h2>
+						<div class="mc-field-group">
+							
+							<div class="input-group margin-bottom-sm">
+							  <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
+							  <input class="form-control" type="email" placeholder="Email address" value="" name="EMAIL" id="mce-EMAIL">
+							  <span class="input-group-btn">
+								<input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="btn btn-secondary">
+								<!-- <button class="btn btn-secondary" type="button">Love it</button> -->
+							  </span>
+							</div>
+							
+						</div>
+							<div id="mce-responses" class="clear">
+								<div class="response" id="mce-error-response" style="display:none"></div>
+								<div class="response" id="mce-success-response" style="display:none"></div>
+							</div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+							<div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_0f48c9bf2e6caa3ee9c259b22_9339596eec" tabindex="-1" value=""></div>
+							<!-- <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div> -->
+							</div>
+						</form>
+						</div>
+						<!--End mc_embed_signup-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+	<!--
+    <section class="features bg-primary" id="features">
+        <div class="container">
+            <div class="section-heading text-center">
+                <h2>A next gen cryptocurrency</h2>
+                <p class="text-muted-white">We're integrating all of the latest advances in the cryptocurrency space into Pando.</p>
+                <hr>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="device-container">
+                        <div class="device-mockup iphone6_plus portrait white">
+                            <div class="device">
+                                <div class="screen">
+                    
+                                    <img src="img/demo-screen-1.jpg" class="img-fluid" alt=""> </div>
+                                <div class="button">
+                            
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="feature-item">
+                                    <i class="fa fa-bolt text-primary"></i>
+                                    <h3>Fast</h3>
+                                    <p class="text-muted-white">Structuring the blockchain into a tree enables Pando to process a large number of blocks at the same time in parallel</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="feature-item">
+                                    <i class="icon-camera text-primary"></i>
+                                    <h3>Flexible Use</h3>
+                                    <p class="text-muted-white">Put an image, video, animation, or anything else in the screen!</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="feature-item">
+                                    <i class="icon-present text-primary"></i>
+                                    <h3>Free to Use</h3>
+                                    <p class="text-muted-white">As always, this theme is free to download and use for any purpose!</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="feature-item">
+                                    <i class="icon-lock-open text-primary"></i>
+                                    <h3>Open Source</h3>
+                                    <p class="text-muted-white">Since this theme is MIT licensed, you can use it commercially!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="cta-content">
+            <div class="container">
+                <h2>Stop waiting.<br>Start building.</h2>
+                <a href="#contact" class="btn btn-outline btn-xl">Let's Get Started!</a>
+            </div>
+        </div>
+        <div class="overlay"></div>
+    </section>
+
+    <section class="contact bg-primary" id="contact">
+        <div class="container">
+            <h2>We <i class="fa fa-heart"></i> new friends!</h2>
+            <ul class="list-inline list-social">
+                <li class="list-inline-item social-twitter">
+                    <a href="#"><i class="fa fa-twitter"></i></a>
+                </li>
+                <li class="list-inline-item social-facebook">
+                    <a href="#"><i class="fa fa-facebook"></i></a>
+                </li>
+                <li class="list-inline-item social-google-plus">
+                    <a href="#"><i class="fa fa-google-plus"></i></a>
+                </li>
+            </ul>
+        </div>
+    </section>
+	
+	-->
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2017 Pando Ledger LLC. All Rights Reserved.</p>
+			<!--
+            <ul class="list-inline">
+                <li class="list-inline-item">
+                    <a href="#">Privacy</a>
+                </li>
+                <li class="list-inline-item">
+                    <a href="#">Terms</a>
+                </li>
+                <li class="list-inline-item">
+                    <a href="#">FAQ</a>
+                </li>
+            </ul>
+			-->
+        </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/tether/tether.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="js/new-age.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+	<script type="text/javascript">
+	/* D3 Tree */
+/* Copyright 2013 Peter Cook (@prcweb); Licensed MIT */
+
+// Tree configuration
+var branches = [];
+var seed = {i: 0, x: 420, y: 600, a: 0, l: 130, d:0}; // a = angle, l = length, d = depth
+var da = 0.5; // Angle delta
+var dl = 0.8; // Length delta (factor)
+var ar = 0.7; // Randomness
+var maxDepth = 9;
+
+
+// Tree creation functions
+function branch(b) {
+	var end = endPt(b), daR, newB;
+
+	branches.push(b);
+
+	if (b.d === maxDepth)
+		return;
+
+	// Left branch
+	daR = ar * Math.random() - ar * 0.5;
+	newB = {
+		i: branches.length,
+		x: end.x,
+		y: end.y,
+		a: b.a - da + daR,
+		l: b.l * dl,
+		d: b.d + 1,
+		parent: b.i
+	};
+	branch(newB);
+
+	// Right branch
+	daR = ar * Math.random() - ar * 0.5;
+	newB = {
+		i: branches.length,
+		x: end.x, 
+		y: end.y, 
+		a: b.a + da + daR, 
+		l: b.l * dl, 
+		d: b.d + 1,
+		parent: b.i
+	};
+	branch(newB);
+}
+
+function regenerate(initialise) {
+	branches = [];
+	branch(seed);
+	initialise ? create() : update();
+}
+
+function endPt(b) {
+	// Return endpoint of branch
+	var x = b.x + b.l * Math.sin( b.a );
+	var y = b.y - b.l * Math.cos( b.a );
+	return {x: x, y: y};
+}
+
+
+// D3 functions
+function x1(d) {return d.x;}
+function y1(d) {return d.y;}
+function x2(d) {return endPt(d).x;}
+function y2(d) {return endPt(d).y;}
+function highlightParents(d) {
+	var colour = d3.event.type === 'mouseover' ? 'green' : '#777';
+	var depth = d.d;
+	for(var i = 0; i <= depth; i++) {
+		d3.select('#id-'+parseInt(d.i)).style('stroke', colour);
+		d = branches[d.parent];
+	}	
+}
+
+function create() {
+	d3.select('svg')
+		.selectAll('line')
+		.data(branches)
+		.enter()
+		.append('line')
+		.attr('x1', x1)
+		.attr('y1', y1)
+		.attr('x2', x2)
+		.attr('y2', y2)
+		.style('stroke-width', function(d) {return parseInt(maxDepth + 1 - d.d) + 'px';})
+		.attr('id', function(d) {return 'id-'+d.i;})
+		.on('mouseover', highlightParents)
+		.on('mouseout', highlightParents);
+}
+
+function update() {
+	d3.select('svg')
+		.selectAll('line')
+		.data(branches)
+		.transition()
+		.attr('x1', x1)
+		.attr('y1', y1)
+		.attr('x2', x2)
+		.attr('y2', y2);
+}
+
+d3.selectAll('.regenerate')
+	.on('click', regenerate);
+
+regenerate(true);
+setInterval(regenerate, 5000);
+
+
+	</script>
+	
+	<script type='text/javascript' src='https://s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';fnames[3]='BIRTHDAY';ftypes[3]='birthday';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
+
+</body>
+
+</html>
