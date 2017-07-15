@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+	<meta name="google-site-verification" content="T0kAEpWG-KAcgcS-uY2OtqNee58pVgn17LeMQzQrHdo" />
 
     <title>Pando</title>
 
@@ -40,6 +41,7 @@
 		width: 840px;
 		height: 600px;
 		font-family: helvetica, sans-serif;
+		cursor: pointer;
 	}
 	
 	#globe {
@@ -162,19 +164,13 @@
         <div class="container">
             <a class="navbar-brand" href="#page-top">Pando</a>
             <div class="collapse navbar-collapse" id="navbarExample">
-			<!--
+			
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#download">Seed ICO</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#features">Whitepaper</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#contact">Roadmap</a>
+                        <a class="nav-link" href="#about">About</a>
                     </li>
                 </ul>
-				-->
+				
             </div>
         </div>
     </nav>
@@ -214,7 +210,7 @@
             <div class="row">
                 <div class="col-md-4" style="text-align:center;">
 				<!-- <i class="fa fa-bell-o fa-6" style="font-size: 196px;" aria-hidden="true"></i> -->
-				<svg id="globe"></svg>
+				<div id="globe"></div>
 				</div>
                 <div class="col-md-8" style="margin-top: 100px">
 				<div class="input-group margin-bottom-sm">
@@ -248,6 +244,21 @@
             </div>
         </div>
     </section>
+	
+	<section id="about" class="bg-primary">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12" style="text-align: center">
+					<h2>About</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					We are a Utah based startup working on scalable blockchain technology.  Currently in stealth mode.  Contact us info@pandoledger.com
+				</div>
+			</div>
+		</div>
+	</section>
 
 	<!--
     <section class="features bg-primary" id="features">
@@ -368,10 +379,17 @@
     <!-- Plugin JavaScript -->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Custom scripts for this template -->
     <script src="js/new-age.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+	
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/86/three.min.js"></script>
+	<script src="js/renderers/Projector.js"></script>
+	<script src="js/renderers/CanvasRenderer.js"></script>
+		
 	<script type="text/javascript">
+	
+	
 	/* D3 Tree */
 /* Copyright 2013 Peter Cook (@prcweb); Licensed MIT */
 
@@ -424,7 +442,7 @@ function regenerate(initialise) {
 	branches = [];
 	branch(seed);
 	initialise ? create() : update();
-	setTimeout(regenerate, 5000);
+	//setTimeout(regenerate, 5000);
 }
 
 function endPt(b) {
@@ -462,7 +480,11 @@ function create() {
 		.style('stroke-width', function(d) {return parseInt(maxDepth + 1 - d.d) + 'px';})
 		.attr('id', function(d) {return 'id-'+d.i;})
 		.on('mouseover', highlightParents)
-		.on('mouseout', highlightParents);
+		.on('mouseout', highlightParents)
+		.on('click', regenerate);
+		
+	d3.select('svg')
+		.on('click', regenerate);
 }
 
 function update() {
@@ -483,9 +505,115 @@ regenerate(true);
 
 
 
+//three.js globe
 
 
-//globe
+
+			var SCREEN_WIDTH = 400,
+			SCREEN_HEIGHT = 400,
+			mouseX = 0, mouseY = 0,
+			windowHalfX = SCREEN_WIDTH / 2,
+			windowHalfY = SCREEN_HEIGHT / 2,
+			SEPARATION = 200,
+			AMOUNTX = 10,
+			AMOUNTY = 10,
+			camera, scene, renderer;
+			init();
+			animate();
+			function init() {
+				var container, separation = 100, amountX = 50, amountY = 50,
+				particles, particle;
+				container = document.getElementById('globe');
+				//document.body.appendChild(container);
+				camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 10000 );
+				camera.position.z = 1000;
+				scene = new THREE.Scene();
+				scene.background = new THREE.Color( 0xffffff );
+				renderer = new THREE.CanvasRenderer();
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
+				container.appendChild( renderer.domElement );
+				// particles
+				var PI2 = Math.PI * 2;
+				var material = new THREE.SpriteCanvasMaterial( {
+					color: 0x00ff00,
+					program: function ( context ) {
+						context.beginPath();
+						context.arc( 0, 0, 0.5, 0, PI2, true );
+						context.fill();
+					}
+				} );
+				for ( var i = 0; i < 1000; i ++ ) {
+					particle = new THREE.Sprite( material );
+					particle.position.x = Math.random() * 2 - 1;
+					particle.position.y = Math.random() * 2 - 1;
+					particle.position.z = Math.random() * 2 - 1;
+					particle.position.normalize();
+					particle.position.multiplyScalar( Math.random() * 10 + 450 );
+					particle.scale.multiplyScalar( 2 );
+					scene.add( particle );
+				}
+				// lines
+				for (var i = 0; i < 300; i++) {
+					var geometry = new THREE.Geometry();
+					var vertex = new THREE.Vector3( Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1 );
+					vertex.normalize();
+					vertex.multiplyScalar( 450 );
+					geometry.vertices.push( vertex );
+					var vertex2 = vertex.clone();
+					vertex2.multiplyScalar( Math.random() * 0.3 + 1 );
+					geometry.vertices.push( vertex2 );
+					var line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: 0x22ff22, opacity: Math.random() } ) );
+					scene.add( line );
+				}
+				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+				document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+				//
+				window.addEventListener( 'resize', onWindowResize, false );
+			}
+			function onWindowResize() {
+				windowHalfX = window.innerWidth / 2;
+				windowHalfY = window.innerHeight / 2;
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+			}
+			//
+			function onDocumentMouseMove(event) {
+				mouseX = event.clientX - windowHalfX;
+				mouseY = event.clientY - windowHalfY;
+			}
+			function onDocumentTouchStart( event ) {
+				if ( event.touches.length > 1 ) {
+					event.preventDefault();
+					mouseX = event.touches[ 0 ].pageX - windowHalfX;
+					mouseY = event.touches[ 0 ].pageY - windowHalfY;
+				}
+			}
+			function onDocumentTouchMove( event ) {
+				if ( event.touches.length == 1 ) {
+					event.preventDefault();
+					mouseX = event.touches[ 0 ].pageX - windowHalfX;
+					mouseY = event.touches[ 0 ].pageY - windowHalfY;
+				}
+			}
+			//
+			function animate() {
+				requestAnimationFrame( animate );
+				render();
+			}
+			function render() {
+				camera.position.x += ( mouseX - camera.position.x ) * .05;
+				camera.position.y += ( - mouseY + 200 - camera.position.y ) * .05;
+				camera.lookAt( scene.position );
+				renderer.render( scene, camera );
+			}
+
+
+
+//old globe
+/*
 
 // Map configuration
 var width  = 320;
@@ -567,6 +695,8 @@ function spinning_globe(){
    });
 
 }
+
+*/
 
 	</script>
 	
